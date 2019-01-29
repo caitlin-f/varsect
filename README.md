@@ -2,7 +2,7 @@
 
 ![Varsect logo](lib/varsect_logo_2.png)
 
-Varsect (VARiant calling by interSECTion) is a pipeline designed to report single nucleotide polymorphisms (SNPs),
+**Varsect** (VARiant calling by interSECTion) is a pipeline designed to report single nucleotide polymorphisms (SNPs),
 small insertions and deletions (indels) and large variants (specifically large
 deletions and translocations) in microbial genomes.
 
@@ -14,4 +14,24 @@ Varsect uses existing freely available bioinformatics tools for mapping and vari
 Output files include vcf files suitable for variant annotation, sample x variant csv files, and alignment files (both phylip and nexus) for phylogenomic analysis.
 
 ### Usage:
+```
 varsect_batch.py [-h] -r reference.fa -o path/to/outdir -s samples.txt -t threads [-E recomb.gff] -A
+
+optional arguments:
+  -h, --help           show this help message and exit
+  -r [reference.fa]    reference file in fasta format
+  -o [path/to/outdir]  output directory
+  -s [samples.txt]     paired-end fastq filenames
+  -t [threads]         number of threads
+  -E [recomb.gff]      remove recombination regions specified in a gff file
+  -A                   write batch scripts for all stages and all tools below
+  -M                   mapping with BWA mem
+  -D                   call large variants with Delly
+  -F                   call SNPs and small indels with Freebayes
+  -G                   calls SNPs and small indels with GATK-HaplotypeCaller
+  -P                   call large variants with Pindel
+  -C                   collate data (filtering, intersection, collation)
+  -I                   Samplot images
+  -R                   RaxML
+  -B                   MrBayes
+```
