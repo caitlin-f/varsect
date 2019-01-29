@@ -9,7 +9,7 @@ deletions and translocations) in microbial genomes.
 Varsect has been optimised for use with the Slurm workflow manager in
 Linux environments to efficiently analyse large datasets.
 
-Varsect uses existing freely available bioinformatics tools for mapping and variant calling including BWA, Delly, GATK, Picard, Pindel and Samtools. Results of the various variant calling tools is collated and only high confidence and high frequency variants are reported.
+Varsect uses existing freely available bioinformatics tools for mapping and variant calling including BWA, Delly, Freebayes, GATK, Picard, Pindel and Samtools. Results of the various variant calling tools is collated and only high confidence and high frequency variants are reported.
 
 Output files include vcf files suitable for variant annotation, sample x variant csv files, and alignment files (both phylip and nexus) for phylogenomic analysis.
 
