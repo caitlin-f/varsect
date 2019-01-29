@@ -12,24 +12,22 @@ Linux environments to efficiently analyse large datasets.
 Varsect uses existing freely available bioinformatics tools for mapping and
 variant calling including BWA, Delly, GATK, Picard, Pindel and Samtools.
 
-Usage: varsect_batch.py [-h] -r [reference.fa] -o [path/to/outdir] -s  
-                        [samples.txt] -t [threads] [-E [recomb.gff]] [-A] [-M]  
-                        [-D] [-F] [-G] [-P] [-C] [-I] [-R] [-B]  
+Usage: varsect_batch.py [-h] -r [reference.fa] -o [path/to/outdir] -s [samples.txt] -t [threads] [-E [recomb.gff] [-A] 
 
-optional arguments: \n
-  -h, --help           show this help message and exit  
-  -r [reference.fa]    Reference file in .fasta format  
-  -o [path/to/outdir]  Output directory  
-  -s [samples.txt]     Read filenames to analyse  
-  -t [threads]         Number of threads  
-  -E [recomb.gff]      Remove recombination regions specified in a gff file  
-  -A                   Run all steps  
-  -M                   Perform Mapping  
-  -D                   Run Delly  
-  -F                   Run Freebayes  
-  -G                   Run GATK-HaplotypeCaller  
-  -P                   Run Pindel  
-  -C                   Collate data  
-  -I                   Make Samplot Images  
-  -R                   Run RaxML  
-  -B                   Run MrBayes  
+optional arguments:  
+&nbsp;&nbsp;-h, --help&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;show this help message and exit  
+&nbsp;&nbsp;-r [reference.fa]&nbsp;&nbsp;&nbsp;&nbsp;Reference file in .fasta format  
+&nbsp;&nbsp;-o [path/to/outdir]&nbsp;&nbsp;Output directory  
+&nbsp;&nbsp;-s [samples.txt]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Read filenames to analyse  
+&nbsp;&nbsp;-t [threads]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Number of threads  
+&nbsp;&nbsp;-E [recomb.gff]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Remove recombination regions specified in a gff file  
+&nbsp;&nbsp;-A&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Run all steps  
+&nbsp;&nbsp;-M&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Perform Mapping  
+&nbsp;&nbsp;-D&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Run Delly  
+&nbsp;&nbsp;-F&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Run Freebayes  
+&nbsp;&nbsp;-G&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Run GATK-HaplotypeCaller  
+&nbsp;&nbsp;-P&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Run Pindel  
+&nbsp;&nbsp;-C&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Collate data  
+&nbsp;&nbsp;-I&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Make Samplot Images  
+&nbsp;&nbsp;-R&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Run RaxML  
+&nbsp;&nbsp;-B&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Run MrBayes  
