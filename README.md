@@ -1,6 +1,6 @@
 # Varsect
 
-![Varsect logo](https://github.com/caitlin-f/varsect/lib/varsect_logo.png)
+![Varsect logo](lib/varsect_logo.png)
 
 Varsect is a pipeline designed to report single nucleotide polymorphisms (SNPs),
 small insertions and deletions (indels) and large variants, specifically large
