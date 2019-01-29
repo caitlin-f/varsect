@@ -2,7 +2,7 @@
 
 ![Varsect logo](lib/varsect_logo_2.png)
 
-**Varsect** (VARiant calling by interSECTion) is a pipeline designed to report single nucleotide polymorphisms (SNPs),
+Varsect *(VARiant calling by interSECTion)* is a pipeline designed to report single nucleotide polymorphisms (SNPs),
 small insertions and deletions (indels) and large variants (specifically large
 deletions and translocations) in microbial genomes.
 
