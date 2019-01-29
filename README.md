@@ -15,24 +15,26 @@ Output files include vcf files suitable for variant annotation, sample x variant
 
 ### Usage:
 ```
-varsect_batch.py [-h] (-r reference.fa -o path/to/outdir -s samples.txt -t threads) [-E recomb.gff] [-A]
+varsect_batch.py [-h] -r reference.fa -o path/to/outdir -s samples.txt -t threads [-E recomb.gff] [-A]
 
 
 Arguments:
-  -h, --help           show this help message and exit
-  -r [reference.fa]    reference file in fasta format (required)
-  -o [path/to/outdir]  output directory (required)
-  -s [samples.txt]     paired-end fastq filenames (required)
-  -t [threads]         number of threads (required)
-  -E [recomb.gff]      remove recombination regions specified in a gff file
-  -A                   write batch scripts for all stages and all tools below
-  -M                   mapping with BWA mem
-  -D                   call large variants with Delly
-  -F                   call SNPs and small indels with Freebayes
-  -G                   calls SNPs and small indels with GATK-HaplotypeCaller
-  -P                   call large variants with Pindel
-  -C                   collate data (filtering, intersection, collation)
-  -I                   Samplot images
-  -R                   RaxML
-  -B                   MrBayes
+  -h, --help       show this help message and exit
+  -r STR           reference file in fasta format (required)
+  -o STR           output directory (required)
+  -s FILE          line separated list of paired-end fastq.gz filenames (required)
+  -t INT           number of threads (required)
+  -E FILE          remove recombination regions specified in a gff file
+  -A               write batch scripts for all stages and all tools
+
+The following may be specified instead of -A to write batch scripts for specific individual tools or steps:
+  -M               mapping with BWA mem
+  -D               call large variants with Delly
+  -F               call SNPs and small indels with Freebayes
+  -G               calls SNPs and small indels with GATK-HaplotypeCaller
+  -P               call large variants with Pindel
+  -C               collate data (filtering, intersection, collation)
+  -I               Samplot images
+  -R               RaxML
+  -B               MrBayes
 ```
