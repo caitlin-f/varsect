@@ -15,14 +15,15 @@ Output files include vcf files suitable for variant annotation, sample x variant
 
 ### Usage:
 ```
-varsect_batch.py [-h] -r reference.fa -o path/to/outdir -s samples.txt -t threads [-E recomb.gff] -A
+varsect_batch.py [-h] (-r reference.fa -o path/to/outdir -s samples.txt -t threads) [-E recomb.gff] [-A]
 
-optional arguments:
+
+Arguments:
   -h, --help           show this help message and exit
-  -r [reference.fa]    reference file in fasta format
-  -o [path/to/outdir]  output directory
-  -s [samples.txt]     paired-end fastq filenames
-  -t [threads]         number of threads
+  -r [reference.fa]    reference file in fasta format (required)
+  -o [path/to/outdir]  output directory (required)
+  -s [samples.txt]     paired-end fastq filenames (required)
+  -t [threads]         number of threads (required)
   -E [recomb.gff]      remove recombination regions specified in a gff file
   -A                   write batch scripts for all stages and all tools below
   -M                   mapping with BWA mem
