@@ -27,7 +27,7 @@ Arguments:
   -E FILE          remove recombination regions specified in a gff file
   -A               write batch scripts for all stages and all tools
 
-The following may be specified instead of -A to write batch scripts for specific individual tools or steps:
+The following may be specified instead of -A to write batch scripts for individual tools or steps:
   -M               mapping with BWA mem
   -D               call large variants with Delly
   -F               call SNPs and small indels with Freebayes
