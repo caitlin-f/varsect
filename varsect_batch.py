@@ -1,9 +1,9 @@
 """
-FILE: varsect.py
+FILE: varsect_batch.py
 AUTHOR: Caitlin Falconer
 USAGE: python3 varsect_batch.py -r reference.fa -o path/to/outdir -s samples.txt -t 16 [-E recomb.gff] [-A]
 REQUIRES:
--r Reference fasta file and write access to reference sequence directory,
+-r reference fasta file and write access to reference sequence directory,
 -o path to output directory
 -s file containing a line separated list of paired fastq sample files in the
    order of sampleA_R1.fastq.gz, sampleA_R2.fastq.gz, sampleB_R1.fastq.gz,
@@ -12,7 +12,7 @@ REQUIRES:
 
 Run Varsect using Slurm batch scripts. Creates all the batch scripts for each of
 the steps in Varsect. Creates the directories for the final output files and all
-necessary indexes for the reference fasta file.
+necessary indexes for the reference.
 """
 
 import argparse
@@ -23,11 +23,11 @@ def parse_args():
     """ Parse user supplied arguments """
     parser = argparse.ArgumentParser()
     argparse.ArgumentParser(argument_default=False)
-    parser.add_argument('-r', type=str, required=True, metavar='[reference.fa]', help="Reference file in .fasta format")
-    parser.add_argument('-o', type=str, required=True, metavar='[path/to/outdir]', help="Output directory")
-    parser.add_argument('-s', type=str, required=True, metavar='[samples.txt]', help="Read filenames to analyse")
-    parser.add_argument('-t', type=int, required=True, metavar='[threads]', help='Number of threads')
-    parser.add_argument('-E', type=str, metavar='[recomb.gff]', help="Remove recombination regions specified in a gff file")
+    parser.add_argument('-r', type=str, required=True, metavar='reference.fa', help="Reference file in .fasta format")
+    parser.add_argument('-o', type=str, required=True, metavar='path/to/outdir', help="Output directory")
+    parser.add_argument('-s', type=str, required=True, metavar='samples.txt', help="Read filenames to analyse")
+    parser.add_argument('-t', type=int, required=True, metavar='threads', help='Number of threads')
+    parser.add_argument('-E', type=str, metavar='recomb.gff', help="Remove recombination regions specified in a gff file")
     parser.add_argument('-A', action='store_true', help='Run all steps')
     parser.add_argument('-M', action='store_true', help='Perform Mapping')
     parser.add_argument('-D', action='store_true', help='Run Delly')
