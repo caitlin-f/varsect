@@ -354,21 +354,21 @@ def __samplot_batch(args, file_sets):
 
 def __raxml_batch(args, file_sets):
     """ Writes batch script for running RaxML """
-        with open("{}/3_Trees/run_raxml.sh".format(args.o), "w") as outfile:
-            outfile.write("#!/bin/bash\n")
-            outfile.write("#SBATCH --job-name raxml\n")
-            outfile.write("#SBATCH --nodes 1\n")
-            outfile.write("#SBATCH --cpus-per-task {}\n".format(args.t))
-            outfile.write("#SBATCH --nice\n")
-            outfile.write("#SBATCH --output={}/batch_output/s%A_%a.raxml.out\n".format(args.o))
-            outfile.write("#SBATCH --error={}/batch_output/s%A_%a.raxml.err\n".format(args.o))
-            outfile.write("#SBATCH --time=3-00:00\n\n")
+    with open("{}/3_Trees/run_raxml.sh".format(args.o), "w") as outfile:
+        outfile.write("#!/bin/bash\n")
+        outfile.write("#SBATCH --job-name raxml\n")
+        outfile.write("#SBATCH --nodes 1\n")
+        outfile.write("#SBATCH --cpus-per-task {}\n".format(args.t))
+        outfile.write("#SBATCH --nice\n")
+        outfile.write("#SBATCH --output={}/batch_output/s%A_%a.raxml.out\n".format(args.o))
+        outfile.write("#SBATCH --error={}/batch_output/s%A_%a.raxml.err\n".format(args.o))
+        outfile.write("#SBATCH --time=3-00:00\n\n")
 
-            outfile.write("source activate caitlin\n\n")
+        outfile.write("source activate caitlin\n\n")
 
-            outfile.write("raxmlHPC -f a -N 1000 -s core_snp.phy -x 12345 -p 12345 -m GTRCAT -T {} -n core_snp.nwk".format(args.t))
-            outfile.write("raxmlHPC -f a -N 1000 -s core_indel.phy -x 12345 -p 12345 -m BINCAT -T {} -n core_indel.nwk".format(args.t))
-            outfile.write("raxmlHPC -f a -N 1000 -s core.phy -q core.partition -x 12345 -p 12345 -m GTRCAT -T {} -n core.nwk".format(args.t))
+        outfile.write("raxmlHPC -f a -N 1000 -s core_snp.phy -x 12345 -p 12345 -m GTRCAT -T {} -n core_snp.nwk".format(args.t))
+        outfile.write("raxmlHPC -f a -N 1000 -s core_indel.phy -x 12345 -p 12345 -m BINCAT -T {} -n core_indel.nwk".format(args.t))
+        outfile.write("raxmlHPC -f a -N 1000 -s core.phy -q core.partition -x 12345 -p 12345 -m GTRCAT -T {} -n core.nwk".format(args.t))
 
 def __mrbayes_batch(args, file_sets):
     """ Writes batch script for running MrBayes """
