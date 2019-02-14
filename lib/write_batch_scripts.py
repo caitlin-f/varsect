@@ -4,6 +4,7 @@ Script is called by 'Varsect_batch.py'
 """
 def write_batch_files(args, file_sets):
     """ Write the slurm batch files """
+
     if args.M:
         __mapping_batch(args, file_sets)
 
@@ -21,8 +22,8 @@ def write_batch_files(args, file_sets):
 
     if args.C:
         __filter_batch(args, file_sets)
-        __intersect_batch(args, file_sets)
-        __collate_batch(args, file_sets)
+        # __intersect_batch(args, file_sets)
+        # __collate_batch(args, file_sets)
         __matrix_batch(args, file_sets)
 
     if args.R:
@@ -70,7 +71,7 @@ def __delly_batch(args, file_sets):
         outfile.write("#SBATCH --nodes 1\n")
         outfile.write("#SBATCH --cpus-per-task 4\n")
         outfile.write("#SBATCH --nice\n")
-        outfile.write("#SBATCH --array=1-{}%48\n".format(len(file_sets.keys())))
+        outfile.write("#SBATCH --array=1-{}%12\n".format(len(file_sets.keys())))
         outfile.write("#SBATCH --output={}/batch_output/s%A_%a.delly.out\n".format(args.o))
         outfile.write("#SBATCH --error={}/batch_output/s%A_%a.delly.err\n".format(args.o))
         outfile.write("#SBATCH --time=3-00:00\n\n")
@@ -95,7 +96,7 @@ def __freebayes_batch(args, file_sets):
         outfile.write("#SBATCH --nodes 1\n")
         outfile.write("#SBATCH --cpus-per-task 4\n")
         outfile.write("#SBATCH --nice\n")
-        outfile.write("#SBATCH --array=1-{}%48\n".format(len(file_sets.keys())))
+        outfile.write("#SBATCH --array=1-{}%12\n".format(len(file_sets.keys())))
         outfile.write("#SBATCH --output={}/batch_output/s%A_%a.fb.out\n".format(args.o))
         outfile.write("#SBATCH --error={}/batch_output/s%A_%a.fb.err\n".format(args.o))
         outfile.write("#SBATCH --time=3-00:00\n\n")
@@ -122,7 +123,7 @@ def __gatk_batch(args, file_sets):
         outfile.write("#SBATCH --nodes 1\n")
         outfile.write("#SBATCH --cpus-per-task 8\n")
         outfile.write("#SBATCH --nice\n")
-        outfile.write("#SBATCH --array=1-{}%12\n".format(len(file_sets.keys())))
+        outfile.write("#SBATCH --array=1-{}%6\n".format(len(file_sets.keys())))
         outfile.write("#SBATCH --output={}/batch_output/s%A_%a.gatk.out\n".format(args.o))
         outfile.write("#SBATCH --error={}/batch_output/s%A_%a.gatk.err\n".format(args.o))
         outfile.write("#SBATCH --time=3-00:00\n\n")
@@ -149,7 +150,7 @@ def __pindel_batch(args, file_sets):
         outfile.write("#SBATCH --nodes 1\n")
         outfile.write("#SBATCH --cpus-per-task 16\n")
         outfile.write("#SBATCH --nice\n")
-        outfile.write("#SBATCH --array=1-{}%6\n".format(len(file_sets.keys())))
+        outfile.write("#SBATCH --array=1-{}%3\n".format(len(file_sets.keys())))
         outfile.write("#SBATCH --output={}/batch_output/s%A_%a.pindel.out\n".format(args.o))
         outfile.write("#SBATCH --error={}/batch_output/s%A_%a.pindel.err\n".format(args.o))
         outfile.write("#SBATCH --time=3-00:00\n\n")
@@ -168,7 +169,7 @@ def __pindel_batch(args, file_sets):
 
 
 def __filter_batch(args, file_sets):
-    """ Writes batch script for filtering data """
+    """ Writes batch script for filtering and intersection data """
     tools = ""
     if args.D:
         tools += "-D "
@@ -181,28 +182,30 @@ def __filter_batch(args, file_sets):
 
     with open("{}/2_SVs/filter_batch.sh".format(args.o), "w") as outfile:
         outfile.write("#!/bin/bash\n")
-        outfile.write("#SBATCH --job-name filter\n")
+        outfile.write("#SBATCH --job-name filter_intersect\n")
         outfile.write("#SBATCH --nodes 1\n")
         outfile.write("#SBATCH --cpus-per-task 4\n")
         outfile.write("#SBATCH --nice\n")
-        outfile.write("#SBATCH --array=1-{}%28\n".format(len(file_sets.keys())))
-        outfile.write("#SBATCH --output={}/batch_output/s%A_%a.out\n".format(args.o))
-        outfile.write("#SBATCH --error={}/batch_output/s%A_%a.err\n".format(args.o))
+        outfile.write("#SBATCH --array=1-{}%12\n".format(len(file_sets.keys())))
+        outfile.write("#SBATCH --output={}/batch_output/s%A_%a.filter_intersect.out\n".format(args.o))
+        outfile.write("#SBATCH --error={}/batch_output/s%A_%a.filter_intersect.err\n".format(args.o))
         outfile.write("#SBATCH --time=3-00:00\n\n")
 
         outfile.write("source activate caitlin\n\n")
-
+        outfile.write("OUTDIR={}\n\n".format(args.o))
+        outfile.write("REF={}\n".format(args.r))
         outfile.write('SAMPLE=$( sed -n "${{SLURM_ARRAY_TASK_ID}}p" {}/sample_names.txt )\n\n'.format(args.o))
 
-        outfile.write("OUTDIR={}\n\n".format(args.o))
-
         outfile.write('echo "Filtering ${SAMPLE}"\n\n')
-
         outfile.write("bash /home.roaming/s4097594/SV_pipeline/scripts/filter_bcf.sh -s ${{SAMPLE}} -o ${{OUTDIR}} {}".format(tools))
+
+        outfile.write('echo "Getting intersect"\n\n')
+        outfile.write("python3 /home.roaming/s4097594/SV_pipeline/scripts/intersect.py -r ${{REF}} -o ${{OUTDIR}} -s ${{SAMPLE}} -S -I {}".format(tools))
+
 
 
 def __collate_batch(args, file_sets):
-    """ Writes batch script for collating data """
+    """ Writes batch script for collating data (NO LONGER USED)"""
     tools = ""
     if args.D:
         tools += "-D "
@@ -217,7 +220,7 @@ def __collate_batch(args, file_sets):
         outfile.write("#!/bin/bash\n")
         outfile.write("#SBATCH --job-name collate\n")
         outfile.write("#SBATCH --nodes 1\n")
-        outfile.write("#SBATCH --cpus-per-task 20\n")
+        outfile.write("#SBATCH --cpus-per-task 16\n")
         outfile.write("#SBATCH --nice\n")
         outfile.write("#SBATCH --output={}/batch_output/s%A.out\n".format(args.o))
         outfile.write("#SBATCH --error={}/batch_output/s%A.err\n".format(args.o))
@@ -235,7 +238,7 @@ def __collate_batch(args, file_sets):
 
 
 def __intersect_batch(args, file_sets):
-    """ Writes batch script for getting intersect of SVs for each sample """
+    """ Writes batch script for getting intersect of SVs for each sample (NOW RUN WITH FILTER STAGE) """
     tools = ""
     if args.D:
         tools += "-D "
@@ -252,7 +255,7 @@ def __intersect_batch(args, file_sets):
         outfile.write("#SBATCH --nodes 1\n")
         outfile.write("#SBATCH --cpus-per-task 1\n")
         outfile.write("#SBATCH --nice\n")
-        outfile.write("#SBATCH --array=1-{}\n".format(len(file_sets.keys())))
+        outfile.write("#SBATCH --array=1-{}%48\n".format(len(file_sets.keys())))
         outfile.write("#SBATCH --output={}/batch_output/s%A_%a.out\n".format(args.o))
         outfile.write("#SBATCH --error={}/batch_output/s%A_%a.err\n".format(args.o))
         outfile.write("#SBATCH --time=3-00:00\n\n")
@@ -289,10 +292,10 @@ def __matrix_batch(args, file_sets):
         outfile.write("#!/bin/bash\n")
         outfile.write("#SBATCH --job-name matrix\n")
         outfile.write("#SBATCH --nodes 1\n")
-        outfile.write("#SBATCH --cpus-per-task 20\n")
+        outfile.write("#SBATCH --cpus-per-task 16\n")
         outfile.write("#SBATCH --nice\n")
-        outfile.write("#SBATCH --output={}/batch_output/s%A.out\n".format(args.o))
-        outfile.write("#SBATCH --error={}/batch_output/s%A.err\n".format(args.o))
+        outfile.write("#SBATCH --output={}/batch_output/s%A.mtx.out\n".format(args.o))
+        outfile.write("#SBATCH --error={}/batch_output/s%A.mtx.err\n".format(args.o))
         outfile.write("#SBATCH --time=3-00:00\n\n")
 
         outfile.write("source activate caitlin\n\n")
@@ -312,9 +315,9 @@ def __snpEff_batch(args, file_sets):
             outfile.write("#SBATCH --nodes 1\n")
             outfile.write("#SBATCH --cpus-per-task 1\n")
             outfile.write("#SBATCH --nice\n")
-            outfile.write("#SBATCH --array=1-{}\n".format(len(file_sets.keys())))
-            outfile.write("#SBATCH --output={}/batch_output/s%A.out\n".format(args.o))
-            outfile.write("#SBATCH --error={}/batch_output/s%A.err\n".format(args.o))
+            outfile.write("#SBATCH --array=1-{}%48\n".format(len(file_sets.keys())))
+            outfile.write("#SBATCH --output={}/batch_output/s%A.snpEff.out\n".format(args.o))
+            outfile.write("#SBATCH --error={}/batch_output/s%A.snpEff.err\n".format(args.o))
             outfile.write("#SBATCH --time=3-00:00\n\n")
 
             outfile.write("source activate beatson_py3\n\n")
@@ -351,7 +354,21 @@ def __samplot_batch(args, file_sets):
 
 def __raxml_batch(args, file_sets):
     """ Writes batch script for running RaxML """
-    pass
+        with open("{}/3_Trees/run_raxml.sh".format(args.o), "w") as outfile:
+            outfile.write("#!/bin/bash\n")
+            outfile.write("#SBATCH --job-name raxml\n")
+            outfile.write("#SBATCH --nodes 1\n")
+            outfile.write("#SBATCH --cpus-per-task {}\n".format(args.t))
+            outfile.write("#SBATCH --nice\n")
+            outfile.write("#SBATCH --output={}/batch_output/s%A_%a.raxml.out\n".format(args.o))
+            outfile.write("#SBATCH --error={}/batch_output/s%A_%a.raxml.err\n".format(args.o))
+            outfile.write("#SBATCH --time=3-00:00\n\n")
+
+            outfile.write("source activate caitlin\n\n")
+
+            outfile.write("raxmlHPC -f a -N 1000 -s core_snp.phy -x 12345 -p 12345 -m GTRCAT -T {} -n core_snp.nwk".format(args.t))
+            outfile.write("raxmlHPC -f a -N 1000 -s core_indel.phy -x 12345 -p 12345 -m BINCAT -T {} -n core_indel.nwk".format(args.t))
+            outfile.write("raxmlHPC -f a -N 1000 -s core.phy -q core.partition -x 12345 -p 12345 -m GTRCAT -T {} -n core.nwk".format(args.t))
 
 def __mrbayes_batch(args, file_sets):
     """ Writes batch script for running MrBayes """
