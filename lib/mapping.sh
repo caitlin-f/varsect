@@ -40,5 +40,5 @@ rm ${OUTDIR}/1_Mapping/${SAMPLE}.noRG.bam*
 
 samtools index ${OUTDIR}/1_Mapping/${SAMPLE}.RG.bam
 
-samtools mpileup -aa -q 30 ${OUTDIR}/1_Mapping/${SAMPLE}.RG.bam | \
+samtools mpileup -aa ${OUTDIR}/1_Mapping/${SAMPLE}.RG.bam | \
 awk '($4 < 11)' > ${OUTDIR}/1_Mapping/${SAMPLE}_low_cov.mpileup
