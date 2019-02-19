@@ -366,12 +366,12 @@ def main():
         remove_recombination("{}/2_SVs/recom_pred_sorted.gff".format(args.o), complete)
         complete.to_csv("{}/2_SVs/completegenome_norec.csv".format(args.o))
 
-    # if len(core.columns.values) < 100000:
+        # if len(core.columns.values) < 100000:
         # write all variants to vcf (only if small number of snps ~ < 100k)
-    print("Writing vcf without recombination {}...".format(datetime.datetime.time(datetime.datetime.now())))
-    write_vcf(args, core, "coregenome_norec.vcf", sample_names, "tmp.vcf")
-    write_vcf(args, pan, "pangenome_norec.vcf", sample_names, "tmp.vcf")
-
+        print("Writing vcf without recombination {}...".format(datetime.datetime.time(datetime.datetime.now())))
+        write_vcf(args, core, "coregenome_norec.vcf", sample_names, "tmp.vcf")
+        write_vcf(args, pan, "pangenome_norec.vcf", sample_names, "tmp.vcf")
+    print("Completed writing vcf files\n")
     print("Writing phylo files {}...".format(datetime.datetime.time(datetime.datetime.now())))
     write_phylo(args, sample_names, "core", snp_mtx = mtx.snp_mtx, indel_mtx = mtx.indel_mtx)
 
