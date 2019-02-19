@@ -359,29 +359,18 @@ def main():
         # for saving csv matrix minus recombination
         remove_recombination("{}/2_SVs/recom_pred_sorted.gff".format(args.o), core)
         core.to_csv("{}/2_SVs/coregenome_norec.csv".format(args.o))
+
         remove_recombination("{}/2_SVs/recom_pred_sorted.gff".format(args.o), pan)
         pan.to_csv("{}/2_SVs/pangenome_norec.csv".format(args.o))
+
         remove_recombination("{}/2_SVs/recom_pred_sorted.gff".format(args.o), complete)
         complete.to_csv("{}/2_SVs/completegenome_norec.csv".format(args.o))
 
-    # DUPLICATED CODE FOR HANDLING REMOVED RECOMBINATION REGIONS NEEDS FIXING
-    if args.S and args.I: # concat snp and indel matrices
-        common_mtx = pd.concat([mtx.common_snps, mtx.common_indels, mtx.common_snps_low_cov, mtx.common_indels_low_cov], axis=1)
-        core = pd.concat([mtx.snp_mtx, mtx.indel_mtx], axis=1)
-        pan = pd.concat([mtx.pan_snps, mtx.pan_indels], axis=1)
-    elif args.S:
-        common_mtx = pd.concat([mtx.common_snps, mtx.common_snps_low_cov], axis=1)
-        core = mtx.snp_mtx
-        pan = mtx.pan_snps
-    elif args.I:
-        common_mtx = pd.concat([mtx.common_indels, mtx.common_indels_low_cov], axis=1)
-        core = mtx.indel_mtx
-        pan = mtx.pan_indels
-    if len(core.columns.values) < 100000:
+    # if len(core.columns.values) < 100000:
         # write all variants to vcf (only if small number of snps ~ < 100k)
-        print("Writing unique vcf {}...".format(datetime.datetime.time(datetime.datetime.now())))
-        write_vcf(args, core, "coregenome_norec.vcf", sample_names, "tmp.vcf")
-        write_vcf(args, pan, "pangenome_norec.vcf", sample_names, "tmp.vcf")
+    print("Writing vcf without recombination {}...".format(datetime.datetime.time(datetime.datetime.now())))
+    write_vcf(args, core, "coregenome_norec.vcf", sample_names, "tmp.vcf")
+    write_vcf(args, pan, "pangenome_norec.vcf", sample_names, "tmp.vcf")
 
     print("Writing phylo files {}...".format(datetime.datetime.time(datetime.datetime.now())))
     write_phylo(args, sample_names, "core", snp_mtx = mtx.snp_mtx, indel_mtx = mtx.indel_mtx)
