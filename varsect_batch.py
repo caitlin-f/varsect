@@ -103,14 +103,14 @@ def make_directories(args):
         dir = "{}/2_SVs/Pindel/".format(args.o)
         if not os.path.exists(os.path.dirname(dir)):
             os.makedirs(dir)
-    if args.R:
-        dir = "{}/3_Trees/RaxML/".format(args.o)
-        if not os.path.exists(os.path.dirname(dir)):
-            os.mkdir(dir)
-    if args.B:
-        dir = "{}/3_Trees/MrBayes/".format(args.o)
-        if not os.path.exists(os.path.dirname(dir)):
-            os.mkdir(dir)
+    # if args.R:
+    #     dir = "{}/3_Trees/RaxML/".format(args.o)
+    #     if not os.path.exists(os.path.dirname(dir)):
+    #         os.mkdir(dir)
+    # if args.B:
+    #     dir = "{}/3_Trees/MrBayes/".format(args.o)
+    #     if not os.path.exists(os.path.dirname(dir)):
+    #         os.mkdir(dir)
 
 def index_reference(args):
     """ Check that reference is properly indexed
