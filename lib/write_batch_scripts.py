@@ -196,10 +196,10 @@ def __filter_batch(args, file_sets):
         outfile.write("REF={}\n".format(args.r))
         outfile.write('SAMPLE=$( sed -n "${{SLURM_ARRAY_TASK_ID}}p" {}/sample_names.txt )\n\n'.format(args.o))
 
-        outfile.write('echo "Filtering ${SAMPLE}"\n\n')
-        outfile.write("bash /home.roaming/s4097594/SV_pipeline/scripts/filter_bcf.sh -s ${{SAMPLE}} -o ${{OUTDIR}} {}".format(tools))
+        outfile.write('echo "Filtering ${SAMPLE}"\n')
+        outfile.write("bash /home.roaming/s4097594/SV_pipeline/scripts/filter_bcf.sh -s ${{SAMPLE}} -o ${{OUTDIR}} {}\n".format(tools))
 
-        outfile.write('echo "Getting intersect"\n\n')
+        outfile.write('echo "Getting intersect"\n')
         outfile.write("python3 /home.roaming/s4097594/SV_pipeline/scripts/intersect.py -r ${{REF}} -o ${{OUTDIR}} -s ${{SAMPLE}} -S -I {}".format(tools))
 
 
@@ -366,9 +366,9 @@ def __raxml_batch(args, file_sets):
 
         outfile.write("source activate caitlin\n\n")
 
-        outfile.write("raxmlHPC -f a -N 1000 -s core_snp.phy -x 12345 -p 12345 -m GTRCAT -T {} -n core_snp.nwk".format(args.t))
-        outfile.write("raxmlHPC -f a -N 1000 -s core_indel.phy -x 12345 -p 12345 -m BINCAT -T {} -n core_indel.nwk".format(args.t))
-        outfile.write("raxmlHPC -f a -N 1000 -s core.phy -q core.partition -x 12345 -p 12345 -m GTRCAT -T {} -n core.nwk".format(args.t))
+        outfile.write("raxmlHPC -f a -N 1000 -s core_snp.phy -x 12345 -p 12345 -m GTRCAT -T {} -n core_snp.nwk\n".format(args.t))
+        outfile.write("raxmlHPC -f a -N 1000 -s core_indel.phy -x 12345 -p 12345 -m BINCAT -T {} -n core_indel.nwk\n".format(args.t))
+        outfile.write("raxmlHPC -f a -N 1000 -s core.phy -q core.partition -x 12345 -p 12345 -m GTRCAT -T {} -n core.nwk\n".format(args.t))
 
 def __mrbayes_batch(args, file_sets):
     """ Writes batch script for running MrBayes """
