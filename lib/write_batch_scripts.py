@@ -60,7 +60,7 @@ def __mapping_batch(args, file_sets):
 
         outfile.write('echo "Running bwa on ${SAMPLE}"\n\n')
 
-        outfile.write("bash /home.roaming/s4097594/SV_pipeline/scripts/mapping.sh -t ${THREADS} -s ${SAMPLE} -r ${REF} -1 ${FWD} -2 ${REV} -o ${OUTDIR}")
+        outfile.write("bash /home.roaming/s4097594/varsect/lib/mapping.sh -t ${THREADS} -s ${SAMPLE} -r ${REF} -1 ${FWD} -2 ${REV} -o ${OUTDIR}")
 
 
 def __delly_batch(args, file_sets):
@@ -85,7 +85,7 @@ def __delly_batch(args, file_sets):
 
         outfile.write('echo "Running delly on ${SAMPLE}"\n\n')
 
-        outfile.write("bash /home.roaming/s4097594/SV_pipeline/scripts/delly.sh -s ${SAMPLE} -r ${REF} -o ${OUTDIR}")
+        outfile.write("bash /home.roaming/s4097594/varsect/lib/delly.sh -s ${SAMPLE} -r ${REF} -o ${OUTDIR}")
 
 
 def __freebayes_batch(args, file_sets):
@@ -110,7 +110,7 @@ def __freebayes_batch(args, file_sets):
 
         outfile.write('echo "Running freebayes on ${SAMPLE}"\n\n')
 
-        outfile.write("bash /home.roaming/s4097594/SV_pipeline/scripts/freebayes.sh -s ${SAMPLE} -r ${REF} -o ${OUTDIR}")
+        outfile.write("bash /home.roaming/s4097594/varsect/lib/freebayes.sh -s ${SAMPLE} -r ${REF} -o ${OUTDIR}")
 
 
 def __gatk_batch(args, file_sets):
@@ -137,7 +137,7 @@ def __gatk_batch(args, file_sets):
 
         outfile.write('echo "Running gatk on ${SAMPLE}"\n\n')
 
-        outfile.write("bash /home.roaming/s4097594/SV_pipeline/scripts/gatk.sh -s ${SAMPLE} -r ${REF} -o ${OUTDIR}")
+        outfile.write("bash /home.roaming/s4097594/varsect/lib/gatk.sh -s ${SAMPLE} -r ${REF} -o ${OUTDIR}")
 
 
 def __pindel_batch(args, file_sets):
@@ -165,7 +165,7 @@ def __pindel_batch(args, file_sets):
 
         outfile.write('echo "Running pindel on ${SAMPLE}"\n\n')
 
-        outfile.write("bash /home.roaming/s4097594/SV_pipeline/scripts/pindel.sh -t ${THREADS} -s ${SAMPLE} -r ${REF} -o ${OUTDIR}")
+        outfile.write("bash /home.roaming/s4097594/varsect/lib/pindel.sh -t ${THREADS} -s ${SAMPLE} -r ${REF} -o ${OUTDIR}")
 
 
 def __filter_batch(args, file_sets):
@@ -197,10 +197,10 @@ def __filter_batch(args, file_sets):
         outfile.write('SAMPLE=$( sed -n "${{SLURM_ARRAY_TASK_ID}}p" {}/sample_names.txt )\n\n'.format(args.o))
 
         outfile.write('echo "Filtering ${SAMPLE}"\n')
-        outfile.write("bash /home.roaming/s4097594/SV_pipeline/scripts/filter_bcf.sh -s ${{SAMPLE}} -o ${{OUTDIR}} {}\n".format(tools))
+        outfile.write("bash /home.roaming/s4097594/varsect/lib/filter_bcf.sh -s ${{SAMPLE}} -o ${{OUTDIR}} {}\n".format(tools))
 
         outfile.write('echo "Getting intersect"\n')
-        outfile.write("python3 /home.roaming/s4097594/SV_pipeline/scripts/intersect.py -r ${{REF}} -o ${{OUTDIR}} -s ${{SAMPLE}} -S -I {}".format(tools))
+        outfile.write("python3 /home.roaming/s4097594/varsect/lib/intersect.py -r ${{REF}} -o ${{OUTDIR}} -s ${{SAMPLE}} -S -I {}".format(tools))
 
 
 
@@ -234,7 +234,7 @@ def __collate_batch(args, file_sets):
 
         outfile.write('echo "Collating data"\n\n')
 
-        outfile.write("python3 /home.roaming/s4097594/SV_pipeline/scripts/collate.py -r ${{REF}} -o ${{OUTDIR}} -s ${{SAMPLES}} -I {}".format(tools))
+        outfile.write("python3 /home.roaming/s4097594/varsect/lib/collate.py -r ${{REF}} -o ${{OUTDIR}} -s ${{SAMPLES}} -I {}".format(tools))
 
 
 def __intersect_batch(args, file_sets):
@@ -269,7 +269,7 @@ def __intersect_batch(args, file_sets):
 
         outfile.write('echo "Getting intersect"\n\n')
 
-        outfile.write("python3 /home.roaming/s4097594/SV_pipeline/scripts/intersect.py -r ${{REF}} -o ${{OUTDIR}} -s ${{SAMPLE}} -S -I {}".format(tools))
+        outfile.write("python3 /home.roaming/s4097594/varsect/lib/intersect.py -r ${{REF}} -o ${{OUTDIR}} -s ${{SAMPLE}} -S -I {}".format(tools))
 
 
 def __matrix_batch(args, file_sets):
@@ -306,7 +306,7 @@ def __matrix_batch(args, file_sets):
 
         outfile.write('echo "Collating data"\n\n')
 
-        outfile.write("python3 /home.roaming/s4097594/SV_pipeline/scripts/matrix_fast.py -r ${{REF}} -o ${{OUTDIR}} -s ${{SAMPLES}} {}-S -I {}".format(rec, tools))
+        outfile.write("python3 /home.roaming/s4097594/varsect/lib/matrix_fast.py -r ${{REF}} -o ${{OUTDIR}} -s ${{SAMPLES}} {}-S -I {}".format(rec, tools))
 
 def __snpEff_batch(args, file_sets):
         with open("{}/2_SVs/snpEff_batch.sh".format(args.o), "w") as outfile:
@@ -348,8 +348,8 @@ def __samplot_batch(args, file_sets):
 
         outfile.write('echo "Drawing samplots group ${SLURM_ARRAY_TASK_ID}"\n\n')
 
-        outfile.write("python3 /home.roaming/s4097594/SV_pipeline/scripts/draw_samplots.py -a ${{SLURM_ARRAY_TASK_ID}} -o {} -v {}/2_SVs/coregenome.vcf".format(args.o, args.o))
-        outfile.write("python3 /home.roaming/s4097594/SV_pipeline/scripts/draw_samplots.py -a ${{SLURM_ARRAY_TASK_ID}} -o {} -v {}/2_SVs/pangenome.vcf".format(args.o, args.o))
+        outfile.write("python3 /home.roaming/s4097594/varsect/lib/draw_samplots.py -a ${{SLURM_ARRAY_TASK_ID}} -o {} -v {}/2_SVs/coregenome.vcf\n".format(args.o, args.o))
+        outfile.write("python3 /home.roaming/s4097594/varsect/lib/draw_samplots.py -a ${{SLURM_ARRAY_TASK_ID}} -o {} -v {}/2_SVs/pangenome.vcf\n".format(args.o, args.o))
 
 
 def __raxml_batch(args, file_sets):

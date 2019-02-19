@@ -36,7 +36,7 @@ def main():
     print(samples)
     print(bam_files)
 
-    bcf = VariantFile("{}/2_SVs/{}".format(args.o, args.v))
+    bcf = VariantFile("{}".format(args.v))
     for rec in bcf.fetch():
         if rec.info["SVTYPE"] == "DEL":
             cmd = ['samplot.py']
