@@ -1275,7 +1275,8 @@ def remove_recombination(file, mtx):
     sample_names = mtx.index.values.tolist()
     samples = re.compile('|'.join(r'\b{}\b'.format(name) for name in sample_names))
     rec_pos = RecombinationPos(gff_records, samples)
-
+    print("Recombination start positions",rec_pos.start)
+    print("Recombination end positions",rec_pos.end)
     to_drop = []
     sorted_cols = sorted(mtx.columns)
     for var in sorted_cols:
