@@ -339,7 +339,7 @@ def main():
         write_vcf(args, mtx.indel_mtx, "core_indels.vcf", sample_names, "tmp.vcf")
         write_vcf(args, mtx.pan_indels, "pan_indels.vcf", sample_names, "tmp.vcf")
 
-    if len(core.columns.values) < 50000:
+    if len(core.columns.values) < 100000:
         # write all variants to vcf (only if small number of snps ~ < 50k)
         print("Writing unique vcf {}...".format(datetime.datetime.time(datetime.datetime.now())))
         write_vcf(args, core, "coregenome.vcf", sample_names, "tmp.vcf")
